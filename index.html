@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificação de Eventos - UPA Rocinha</title>
+    <style>
+        :root {
+            --primary-blue: #004a8d; 
+            --light-blue: #e8f0fe;
+            --bg-gray: #f4f7f9;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: var(--bg-gray); 
+            margin: 0; padding: 15px; color: #333;
+        }
+
+        .container { 
+            max-width: 600px; background: #ffffff; margin: 10px auto; padding: 30px; 
+            border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--primary-blue);
+        }
+
+        .logo-container { text-align: center; margin-bottom: 20px; }
+        .logo-container img { width: 160px; height: auto; }
+
+        h2 { color: var(--primary-blue); text-align: center; margin-bottom: 5px; font-size: 1.5em; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 0.9em; }
+        
+        .section-title { 
+            font-weight: bold; margin: 25px 0 10px 0; color: var(--primary-blue); 
+            border-bottom: 1px solid #ddd; font-size: 0.85em; text-transform: uppercase;
+        }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9em; }
+        
+        input, select, textarea {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; 
+            box-sizing: border-box; font-size: 14px; transition: 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--primary-blue); outline: none; 
+            box-shadow: 0 0 5px rgba(0,74,141,0.2);
+        }
+        
+        textarea { height: 90px; resize: vertical; }
+        
+        .radio-group { display: flex; gap: 20px; padding: 5px 0; }
+        .radio-group label { font-weight: normal; cursor: pointer; }
+
+        .btn-submit { 
+            background-color: var(--primary-blue); color: white; padding: 15px; 
+            border: none; border-radius: 6px; cursor: pointer; font-size: 16px; 
+            font-weight: bold; width: 100%; margin-top: 20px; transition: 0.3s;
+        }
+
+        .btn-submit:hover { background-color: #003366; }
+        .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-container">
+        <img src="logo.png" alt="Logo UPA Rocinha">
+    </div>
+
+    <h2>Segurança do Paciente</h2>
+    <p class="subtitle">Notificação de Eventos Adversos e Incidentes</p>
+
+    <form id="formNotificacao">
+        <div class="section-title">Dados da Ocorrência</div>
+        <div class="grid">
+            <div class="form-group">
+                <label>Data*</label>
+                <input type="date" id="data" required>
+            </div>
+            <div class="form-group">
+                <label>Hora</label>
+                <input type="time" id="hora">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Setor*</label>
+            <select id="setor" required>
+                <option value="">Selecione o setor...</option>
+                <option value="Consultórios">Consultórios</option>
+                <option value="Emergência / Sala Vermelha">Emergência / Sala Vermelha</option>
+                <option value="Emergência / Sala Amarela">Emergência / Sala Amarela</option>
+                <option value="Emergência / Sala Amarela Pediátrica">Sala Amarela Pediátrica</option>
+                <option value="Observação Individual">Observação Individual</option>                
+                <option value="Farmácia">Farmácia</option>
+                <option value="Radiologia">Radiologia</option>
+                <option value="Recepção">Recepção</option>
+                <option value="Sala de Sutura">Sala de Sutura</option>
+                <option value="Serviço Social">Serviço Social</option>
+            </select>
+        </div>
+
+        <div class="section-title">Descrição do Evento</div>
+        <div class="form-group">
+            <label>Tipo de Evento*</label>
+            <select id="tipo" required>
+                <option value="">Selecione o tipo...</option>
+                <option value="Queda">Queda do Paciente</option>
+                <option value="Medicação">Erro de Medicação</option>
+                <option value="Identificação">Falha de Identificação</option>
+                <option value="Equipamento">Falha em Equipamento</option>
+                <option value="Procedimento">Falha em Procedimento Clínico</option>
+                <option value="Outro">Outro incidente</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Houve dano ao paciente?*</label>
+            <div class="radio-group">
+                <label><input type="radio" name="dano" value="Sim" required> Sim</label>
+                <label><input type="radio" name="dano" value="Não"> Não</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Relato detalhado do ocorrido*</label>
+            <textarea id="descricao" placeholder="Descreva o que aconteceu..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="conduta">Conduta imediata tomada</label>
+            <textarea id="conduta" placeholder="O que foi feito no momento para mitigar o problema?"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Identificação do Notificador (Opcional)</label>
+            <input type="text" id="notificador" placeholder="Nome ou cargo (pode ser anônimo)">
+        </div>
+
+        <button type="submit" id="btnSubmit" class="btn-submit">Enviar Notificação</button>
+    </form>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYp93Nr_6W4kXHx_SP25ExkRmZgXpyi3e3-bJ9GfboPMkO624phqd0NIEJchFSaSVxeg/exec";
+
+    document.getElementById('formNotificacao').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled = true;
+        btn.innerText = "Registrando...";
+
+        const payload = {
+            data: document.getElementById('data').value,
+            hora: document.getElementById('hora').value,
+            setor: document.getElementById('setor').value,
+            tipo: document.getElementById('tipo').value,
+            dano: document.querySelector('input[name="dano"]:checked').value,
+            descricao: document.getElementById('descricao').value,
+            conduta: document.getElementById('conduta').value || "Não informada",
+            notificador: document.getElementById('notificador').value || "Anônimo"
+        };
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            alert('Sucesso! Notificação enviada ao NSP - UPA Rocinha.');
+            document.getElementById('formNotificacao').reset();
+        })
+        .catch(error => {
+            alert('Erro ao enviar. Verifique a conexão.');
+            console.error('Erro:', error);
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerText = "Enviar Notificação";
+        });
+    });
+</script>
+
+</body>
+</html>
