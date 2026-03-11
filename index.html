@@ -24,7 +24,7 @@
         }
 
         .logo-container { text-align: center; margin-bottom: 20px; }
-        .logo-container img { width: 160px; height: auto; } /* Tamanho ajustado para 160px */
+        .logo-container img { width: 160px; height: auto; }
 
         h2 { color: var(--primary-blue); text-align: center; margin-bottom: 5px; font-size: 1.5em; }
         p.subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 0.9em; }
@@ -147,11 +147,45 @@
 </div>
 
 <script>
-    // LEMBRE-SE DE COLOCAR SEU LINK DO GOOGLE ABAIXO
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYp93Nr_6W4kXHx_SP25ExkRmZgXpyi3e3-bJ9GfboPMkO624phqd0NIEJchFSaSVxeg/exec"
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYp93Nr_6W4kXHx_SP25ExkRmZgXpyi3e3-bJ9GfboPMkO624phqd0NIEJchFSaSVxeg/exec";
 
+    document.getElementById('formNotificacao').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled = true;
+        btn.innerText = "Registrando...";
 
+        const payload = {
+            data: document.getElementById('data').value,
+            hora: document.getElementById('hora').value,
+            setor: document.getElementById('setor').value,
+            tipo: document.getElementById('tipo').value,
+            dano: document.querySelector('input[name="dano"]:checked').value,
+            descricao: document.getElementById('descricao').value,
+            conduta: document.getElementById('conduta').value || "Não informada",
+            notificador: document.getElementById('notificador').value || "Anônimo"
+        };
 
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            alert('Sucesso! Notificação enviada ao NSP - UPA Rocinha.');
+            document.getElementById('formNotificacao').reset();
+        })
+        .catch(error => {
+            alert('Erro ao enviar. Verifique a conexão.');
+            console.error('Erro:', error);
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerText = "Enviar Notificação";
+        });
+    });
+</script>
 
-
-
+</body>
+</html>
